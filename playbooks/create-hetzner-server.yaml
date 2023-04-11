@@ -1,0 +1,16 @@
+- name: Create Basic Server
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  user: root
+  vars:
+    hcloud_token: HETZNER_API_TOKEN
+  tasks:
+    - name: Create a basic server
+      hcloud_server:
+        api_token: "{{ hcloud_token }}"
+        name: demo01
+        server_type: cx11
+        image: ubuntu-22.04
+        state: present
+      register: server

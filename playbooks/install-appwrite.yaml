@@ -1,0 +1,12 @@
+- hosts: all
+  tasks:
+    - name: Copy Docker Compose files from appwrite
+      ansible.builtin.copy:
+        src: appwrite
+        dest: /deployments
+        remote_src: no
+    - name: Start Docker Compose stack
+      community.docker.docker_compose:
+        project_src: /deployments/appwrite
+      vars:
+        ansible_python_interpreter: /usr/bin/python3

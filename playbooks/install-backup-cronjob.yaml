@@ -1,0 +1,23 @@
+- hosts: all
+  vars:
+    APPWRITE_ID: APPWRITE_ID
+  tasks:
+    - name: Copy backup script
+      copy:
+        src: appwrite/cronjob/backup.sh
+        dest: /scripts/backup.sh
+        mode: a+x
+    - name: replace
+      replace:
+        path: /scripts/backup.sh
+        regexp: '\b(\w*APPWRITEID\w*)\b'
+        replace: "{{ APPWRITE_ID }}"
+    - name: Creates cronfile under /etc/cron.d
+      cron:
+        name: appwrite backup
+        weekday: "*"
+        minute: "0"
+        hour: "0"
+        user: root
+        job: "/bin/sh /scripts/backup.sh"
+        cron_file: appwrite_backup-

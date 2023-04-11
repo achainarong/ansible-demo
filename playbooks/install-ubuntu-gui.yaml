@@ -1,0 +1,47 @@
+- hosts: all
+  tasks:
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Install packages
+      apt:
+        pkg:
+          - tigervnc-standalone-server
+          - tigervnc-xorg-extension
+          - xserver-xorg-core
+        state: latest
+        update_cache: true
+
+    - name: Install packages
+      apt:
+        pkg:
+          - ubuntu-gnome-desktop
+        state: latest
+        update_cache: true
+
+    - name: Starting the gdm service
+      shell: "systemctl start gdm"
+
+    - name: Install v4l2loopback-dkms
+      apt:
+        pkg:
+          - v4l2loopback-dkms
+        state: latest
+        update_cache: true
+
+    - name: Add specified repository into sources list
+      apt_repository:
+        repo: "ppa:obsproject/obs-studio"
+
+    - name: Install OBS
+      apt:
+        pkg:
+          - obs-studio
+        state: latest
+        update_cache: true
+
+    - name: Unconditionally reboot the machine with all defaults
+      reboot:

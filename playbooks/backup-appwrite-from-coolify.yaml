@@ -1,0 +1,8 @@
+- hosts: all
+  tasks:
+    - name: Copy backup.sh
+      copy:
+        src: appwrite/backup.sh
+        dest: /ansible/appwrite/backup.sh
+    - name: Running backupscript
+      shell: sh /ansible/appwrite/backup.sh
